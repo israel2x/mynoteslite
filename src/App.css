@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap');
-
-
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap");
 
 :root {
   --color-main: #f68657;
@@ -11,7 +9,7 @@
   --color-light: #acb4bd;
   --color-lighter: #f9f9f9;
   --color-white: #fff;
-  --color-border:#e0e3e6;
+  --color-border: #e0e3e6;
 }
 
 .dark {
@@ -22,24 +20,22 @@
   --color-bg: #1f2124;
   --color-lighter: #292a2c;
   --color-white: #2e3235;
-  --color-border:#252629;
+  --color-border: #252629;
 }
 
 /* BASE STYLES */
 
-
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Lexend', sans-serif;
+  font-family: "Lexend", sans-serif;
   color: inherit;
   font-size: inherit;
   scroll-behavior: smooth;
 }
 
-
-body{
+body {
   line-height: 1.8em;
   font-weight: 400;
   font-size: 16px;
@@ -51,7 +47,6 @@ a {
 
 /* APP STYLES */
 
-
 .container {
   width: 100%;
   height: 100vh;
@@ -61,17 +56,15 @@ a {
   align-items: center;
 }
 
-
 .app {
   width: 100%;
-  max-width: 480px;
+  max-width: 600px;
   height: 88vh;
   margin: 0 auto;
   background-color: var(--color-white);
   box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.05);
   position: relative;
 }
-
 
 .app-header {
   display: flex;
@@ -106,7 +99,6 @@ a {
   padding: 16px;
 }
 
-
 /* NOTES STYLES */
 
 .notes-header {
@@ -128,7 +120,6 @@ a {
   color: var(--color-gray);
 }
 
-
 .notes-list {
   padding: 0;
   margin: 16px 0;
@@ -142,7 +133,7 @@ a {
 }
 
 .notes-list-item {
-  border-bottom: 1px solid  var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   margin-bottom: 12px;
   padding: 8px 16px;
   transition: all 0.2s ease-in-out;
@@ -158,7 +149,6 @@ a {
   font-weight: 600;
 }
 
-
 .notes-list-item p span {
   color: var(--color-gray);
   display: inline-block;
@@ -173,7 +163,7 @@ a {
 .floating-button {
   font-size: 48px;
   position: absolute;
-  bottom: 24px;
+  bottom: 63px;
   right: 16px;
   background: var(--color-main);
   border: none;
@@ -187,12 +177,9 @@ a {
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
 }
 
-
 .floating-button > svg {
   fill: var(--color-bg);
 }
-
-
 
 /*==============================
 =>  Note Styles
@@ -248,8 +235,6 @@ a {
   display: none;
 }
 
-
-
 /*************SPINNER****************/
 .notes-spinner {
   display: flex;
@@ -257,8 +242,29 @@ a {
   justify-content: center;
   margin-top: 10%;
 }
+/* 
+.app .footer {
+  position: relative;
+  margin-top: 79%;
+} */
 
+.footer {
+  display: flex;
+  padding: 16px;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  background-color: var(--color-lighter);
+  box-shadow: 0px 1px 3px rgba(11, 153, 75, 0.1);
+}
 
-.note-footer {
-  
+.footer .online {
+  cursor: pointer;
+  color: var(--color-main);
+}
+
+.footer .offline {
+  cursor: pointer;
+  color: red;
 }
