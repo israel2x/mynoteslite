@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-//import notes from '../assets/db';
 import ListItem from "../components/ListItem";
 import { DotSpinner } from "@uiball/loaders";
 import AddButton from "../components/AddButton";
 import { useNetwork } from "ahooks";
+import { getAllNotes } from "../services/notesService";
 
 function NotesListPage() {
   const [notes, setNotes] = useState([]);
@@ -12,42 +12,29 @@ function NotesListPage() {
   const networkState = useNetwork();
 
   useEffect(() => {
-    console.log("is online: " + networkState.online);
     setIsOnline(networkState.online);
-    const timer = setTimeout(() => {
-      getNotes();
-      console.log("is data: " + isData);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [isOnline]);
-
-  //"https://mynotes-lite-israel2x.vercel.app/api/notes/"
-  let getNotes = async () => {
-    console.log(isOnline);
-    if (!isOnline) {
-      setIsData(false);
-    } else {
-      let response = await fetch("http://localhost:8000/notes")
-        .then((response) => response.json())
-        .catch((e) => console.log(e));
-      //let data = await response.json();
-      //console.log(data);
-      //setNotes(data);
-      console.log("response: " + response);
-      if (response) {
-        setNotes(response);
-        setIsData(true);
+    const getNotes = async () => {
+      if (!isOnline) {
+        setIsData(false);
       } else {
-        setNotes([]);
+        let response = await getAllNotes();
+        if (response) {
+          setNotes(response);
+          setIsData(true);
+        } else {
+          setNotes([]);
+        }
       }
-    }
-  };
+    };
+
+    getNotes();
+  }, [isOnline, networkState, notes]);
 
   return (
     <div className="notes">
       <div className="notes-header">
         <h2 className="notes-title">&#9782; Notes</h2>
-        <p className="notes-count">{notes.length ? 0 : notes.length}</p>
+        <p className="notes-count">{notes.length ? notes.length : 0}</p>
       </div>
       {isData ? (
         <div className="notes-list">

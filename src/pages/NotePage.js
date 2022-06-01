@@ -1,74 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import notes from "../assets/db";
 import { ReactComponent as ArrowLeft } from "../assets/arrow-left.svg";
+import {
+  deletNoteById,
+  getNoteById,
+  newNote,
+  updateNoteService,
+} from "../services/notesService";
 
 const NotePage = ({ match, history }) => {
-  //console.log('NotePage props:', props);
   const noteId = match.params.id;
-
   const [note, setNote] = useState(null);
-  //let note = notes.find(note => note.id === Number(noteId));
-  //console.log(note);
 
   useEffect(() => {
+    const getNote = async () => {
+      if (noteId === "new") return;
+      let data = await getNoteById(noteId);
+
+      setNote(data);
+    };
+
     getNote();
   }, [noteId]);
 
-  let getNote = async () => {
-    if (noteId === "new") return;
-    let response = await fetch(`http://localhost:8000/notes/${noteId}`);
-    let data = await response.json();
-    console.log(data);
-    setNote(data);
-  };
-
   function handleNote(e) {
-    console.log("handleChange");
-    setNote({ ...note, body: e.target.value });
-    console.log(note);
+    setNote({ ...note, text: e.target.value });
   }
 
   const createNote = async () => {
-    const res = await fetch(`http://localhost:8000/notes/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...note, updated: new Date() }),
-    });
-    //history.push('/');
-
-    console.log(res);
+    const response = await newNote(note);
   };
 
   let updateNote = async () => {
-    const res = await fetch(`http://localhost:8000/notes/${noteId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...note, updated: new Date() }),
-    });
-
-    console.log(res);
+    const res = await updateNoteService(note);
   };
 
   const deletNote = async () => {
-    const res = await fetch(`http://localhost:8000/notes/${noteId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ note }),
-    });
+    const res = await deletNoteById(noteId);
     history.push("/");
-
-    console.log(res);
   };
 
   const handleSubmit = () => {
-    if (noteId !== "new" && !note.body) {
+    if (noteId !== "new" && !note.text) {
       deletNote();
     } else if (noteId !== "new") {
       updateNote();
@@ -94,7 +67,8 @@ const NotePage = ({ match, history }) => {
       </div>
       <textarea
         onChange={(e) => handleNote(e)}
-        value={note == null ? "Empty" : note.body}
+        /* value={note == null ? "Empty" : note.text} */
+        value={note?.text}
       ></textarea>
     </div>
   );
